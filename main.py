@@ -23,24 +23,25 @@ game_is_on = True
 
 while game_is_on:
     screen.update()
-    time.sleep(0.08)
+    time.sleep(0.07)
     player.move()
 
     # Detect collision with food
     if player.head.distance(food) < 15:
         food.refresh()
+        scoreboard.increase_score()
         scoreboard.update_score()
         player.extend()
 
     # Detect collision with wall
     if player.head.xcor() > 290 or player.head.xcor() < -290 or player.head.ycor() > 290 or player.head.ycor() < -290:
-        game_is_on = False
-        scoreboard.game_over()
+        scoreboard.reset_scoreboard()
+        player.reset_snake()
 
     # Detect collision with tail
     for segment in player.segments[1:]:
         if player.head.distance(segment) < 10:
-            game_is_on = False
-            scoreboard.game_over()
+            scoreboard.reset_scoreboard()
+            player.reset_snake()
 
 screen.exitonclick()
